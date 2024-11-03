@@ -98,4 +98,37 @@ fn main() {
 
     println!("---------- Snippets ---------");
     test_splitstring();
+
+    println!("---------- Spooky call chain  ---------");
+    // Spooky call chain - with refs to stack -> Rust saves me from this!
+    // let v = take_vec_mut_ref(&mut ret_vec(32));
+
+    let mut v_orig = ret_vec(3);
+    // Side note &mut on rhs is an operation "give me a mutable ref!"
+    let v_orig_ref = &mut v_orig;
+    let v = take_vec_mut_ref(v_orig_ref);
+
+    for e in v {
+        println!("{e}");
+    }
 }
+
+//------------------------------------------------------------------------------
+fn ret_vec(sz: usize) -> Vec<i32> {
+    let mut v: Vec<i32> = Vec::new();
+    v.resize(sz, 1);
+    v
+}
+
+fn take_vec_mut_ref(v: &mut Vec<i32>) -> &Vec<i32> {
+    v[0] = 2;
+    v.resize(4, 3);
+    v
+}
+
+// Interesting: not only is the vector immutable but also the elements!
+// fn take_vec_ref(v: &Vec<i32>) -> &Vec<i32> {
+//     v[0] = 2;
+//     v.resize(4, 3);
+//     v
+// }
