@@ -70,7 +70,28 @@ fn sink_var<T>(name: &str, _var: T) {
 }
 
 //------------------------------------------------------------------------------
+fn func_u64(var: u64) {
+    println!("func_u64 {var}")
+}
+
+fn func_u32(var: u32) {
+    println!("func_u32 {var}")
+}
+
+//------------------------------------------------------------------------------
 fn main() {
+    println!("---------- Typing  ---------");
+    let v: u32 = 1234;
+    // func_u32(v); // does not even promote!
+    func_u64(v as u64); // needs explicit cast
+
+    //let v: u32 = 5_656_678_765; // NICE it warns me about out of range
+    let v: u64 = 5_656_678_765;
+    func_u32(v as u32); // !!!! DOES CUT OFF WITHOUT WARNING!!!!
+
+    // func_u32(v.try_into().unwrap()); // fixed :)
+
+    println!("---------- Ownership  ---------");
     let primitive_var = 42;
     let heap_var: String = String::from("Variable on Heap");
 
