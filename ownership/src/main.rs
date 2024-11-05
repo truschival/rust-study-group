@@ -78,6 +78,10 @@ fn func_u32(var: u32) {
     println!("func_u32 {var}")
 }
 
+fn maketuple() -> (i32, u64) {
+    (2, 2345)
+}
+
 //------------------------------------------------------------------------------
 fn main() {
     println!("---------- Typing  ---------");
@@ -86,14 +90,27 @@ fn main() {
     func_u64(v as u64); // needs explicit cast
 
     //let v: u32 = 5_656_678_765; // NICE it warns me about out of range
-    let v: u64 = 5_656_678_765;
+    let v: u64 = 0x200000000; //4_800_000_000;
+
     func_u32(v as u32); // !!!! DOES CUT OFF WITHOUT WARNING!!!!
 
-    // func_u32(v.try_into().unwrap()); // fixed :)
+    //func_u32(v.try_into().unwrap()); // fixed :)
 
-    println!("---------- Ownership  ---------");
+    const SL: usize = "hallo welt".len();
+
+    let _xxx = if v > 3 {
+        maketuple().1
+    } else {
+        maketuple().0 as u64
+    };
+
+    // let i: i8 = 127;
+    // println!("{} {} ", i, i + 1); // Debug code has range checks
+
+    println!("---------- Ownership  --------- {SL}");
     let primitive_var = 42;
     let heap_var: String = String::from("Variable on Heap");
+    // const HEAP_VAR_LEN: usize = heap_var.len();
 
     // Fun fact: rust does not like variables named 'foo'
     let foo = pass_through("heap_var", heap_var);
@@ -104,25 +121,31 @@ fn main() {
     let r2foo = &foo;
     println!("Print refs: {r2foo}, {rfoo}");
 
+    // let avar = String::from("xxxx");
+    // let _avarref = avar;
+    // println!("avar can be used {avar}");
+
     // 1 Takes ownership
-    sink_var("foo", foo);
+    // sink_var("foo", foo);
     //    println!("heap_var is gone! {heap_var}");
-    //println!("Print refs: {r2foo}, {rfoo}");
+    println!("Print refs: {r2foo}, {rfoo}");
 
     sink_var("bar", bar);
     println!("of course primitive_var can still be used");
 
     // gibt es den typ str (String slice) oder ist das immer eine referenz?
-    // let aString = String::from("Some literal");
-    // let aSlice: str = aString[2..];
-    // println!("aSlice: {aSlice}");
+    //    let aString = String::from("Some literal");
+    // let aSlice = &aStr[2..];
+    //let s = String::from(aStr);
+    //println!("aSlice: {:?}", aSlice);
+    println!("Size of std::String {}", std::mem::size_of::<String>());
 
     println!("---------- Snippets ---------");
     test_splitstring();
 
     println!("---------- Spooky call chain  ---------");
     // Spooky call chain - with refs to stack -> Rust saves me from this!
-    // let v = take_vec_mut_ref(&mut ret_vec(32));
+    //let v = take_vec_mut_ref(&mut ret_vec(32));
 
     let mut v_orig = ret_vec(3);
     // Side note &mut on rhs is an operation "give me a mutable ref!"
