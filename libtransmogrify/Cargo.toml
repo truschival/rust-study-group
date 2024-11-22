@@ -1,0 +1,15 @@
+[package]
+name = "transmogrify"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "transmogrifier"
+path = "src/bin.rs"
+
+
+[lib]
+name = "libtransmogrify"
+path = "src/libtransmogrify.rs"
+
+[dependencies]
