@@ -15,31 +15,45 @@ pub mod context {
         color: Option<String>,
     }
 
-    impl TransmogCtx {
-        pub fn create_ctx() -> Self {
-            Self {
-                verbose: false,
-                color: None,
+    mod private {
+        use crate::context::Color;
+        use crate::context::TransmogCtx;
+
+        fn secret_func() {
+            println!("secret func");
+        }
+
+        impl TransmogCtx {
+            pub fn create_ctx() -> Self {
+                secret_func();
+                Self {
+                    verbose: false,
+                    color: None,
+                }
             }
-        }
 
-        pub fn colorize_ctx(&mut self, color: Color) {
-            self.color = match color {
-                Color::Normal => None,
-                Color::Yellow => Some(String::from("\x1b[93m")),
-                Color::Red => Some(String::from("\x1b[91m")),
-            };
-        }
+            pub fn colorize_ctx(&mut self, color: Color) {
+                self.color = match color {
+                    Color::Normal => None,
+                    Color::Yellow => Some(String::from("\x1b[93m")),
+                    Color::Red => Some(String::from("\x1b[91m")),
+                };
+            }
 
-        pub fn get_color(&self) -> &Option<String> {
-            gorydetails::this_is_gory(&self);
+            pub fn get_color(&self) -> &Option<String> {
+                super::gorydetails::this_is_gory(self);
 
-            &self.color
+                &self.color
+            }
         }
     }
 }
 
 use context::TransmogCtx;
+
+impl TransmogCtx {
+    pub fn otherfun() {}
+}
 
 /// Transmogrify a value including magic
 pub fn transmogrify(ctx: &TransmogCtx, to_transmog: i32) -> i32 {
