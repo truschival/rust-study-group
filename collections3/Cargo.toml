@@ -1,0 +1,14 @@
+[package]
+name = "collections3"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name  = "hireandfire"
+path = "src/lib.rs"
+
+[[bin]]
+name = "hireandfire"
+path = "src/main.rs"
+
+[dependencies]
