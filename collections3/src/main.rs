@@ -12,6 +12,9 @@ fn main() {
     _ = myshop.hire_person("Sales", "Herbert");
 
     for (dep, ppl) in myshop.get_departments() {
+        
+        println!("{:?}",ppl.get(0));
+        
         if ppl.is_empty() {
             println!("Apparently nobody works in {}, we have to hire!", dep)
         }

@@ -80,14 +80,8 @@ mod tests {
 
     #[test]
     fn does_it_transmogrify() {
-        let ctx = create_ctx();
+        let ctx = TransmogCtx::create_ctx();
         let result = transmogrify(&ctx, 3);
         assert_eq!(result, 30);
-    }
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
     }
 }
