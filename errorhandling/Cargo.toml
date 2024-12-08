@@ -1,0 +1,15 @@
+[package]
+name = "errorhandling"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "errorhandling"
+path = "src/lib.rs"
+
+[[bin]]
+name = "errorhandling"
+path = "src/main.rs"
+
+
+[dependencies]
